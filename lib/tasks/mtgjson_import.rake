@@ -1,0 +1,22 @@
+namespace :mtgjson do
+  task :import => :environment do
+    if ENV['file'].blank? || !File.exists?(ENV['file'])
+      warn "Specify the filename with file=FILENAME"
+      exit
+    end
+
+    require 'progress'
+
+    j = JSON.parse(File.read(ENV['file']))
+    count = j.map {|_, set| set['cards'].length}.sum
+    Progress.start("Importing #{count} cards", count) do
+      j.each do |_, set_json|
+        set = MtgSet.import_from_mtgjson(set_json.except('cards'))
+        set_json['cards'].each do |card|
+          MtgCard.import_from_mtgjson(set, card)
+          Progress.step
+        end
+      end
+    end
+  end
+end
