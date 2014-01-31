@@ -1,0 +1,18 @@
+%h1= @set.name
+
+%table
+  %tr
+    %th Number
+    %th Name
+    %th Type
+    %th Mana
+    %th Rarity
+    %th Artist
+  - @cards.each do |card|
+    %tr
+      %td= card.card_number
+      %td= link_to card.name, card
+      %td= card.type_text
+      %td= card.mana_cost
+      %td= card.rarity
+      %td= card.artist

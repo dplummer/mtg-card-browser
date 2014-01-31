@@ -29,4 +29,8 @@ class MtgCard < ActiveRecord::Base
     card.save!
     card
   end
+
+  def set_code
+    mtg_set.code
+  end
 end

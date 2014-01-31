@@ -11,3 +11,5 @@ gem 'spring',        group: :development
 
 gem 'progress', require: false
 gem 'foreigner'
+gem 'haml'
+gem 'thin'
