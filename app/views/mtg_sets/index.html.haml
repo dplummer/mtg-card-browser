@@ -1,4 +1,4 @@
-%table
+%table.table
   %tr
     %th Name
     %th Code
@@ -7,7 +7,7 @@
     %th Block
   - @sets.each do |set|
     %tr
-      %td= link_to set.name, set
+      %td= link_to set.name, "/#{set.code}/en"
       %td= set.code
       %td= set.release_type
       %td= set.release_date

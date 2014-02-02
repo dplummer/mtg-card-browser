@@ -1,6 +1,6 @@
 %h1= @set.name
 
-%table
+%table.table
   %tr
     %th Number
     %th Name
@@ -10,9 +10,12 @@
     %th Artist
   - @cards.each do |card|
     %tr
-      %td= card.card_number
-      %td= link_to card.name, card
+      %td= card.number
+      %td= link_to_if card.number, card.name, "/#{@set.code}/en/#{card.number}"
       %td= card.type_text
       %td= card.mana_cost
       %td= card.rarity
       %td= card.artist
+%p
+  = @cards.length
+  cards

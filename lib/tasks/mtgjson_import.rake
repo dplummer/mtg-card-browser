@@ -11,9 +11,9 @@ namespace :mtgjson do
     count = j.map {|_, set| set['cards'].length}.sum
     Progress.start("Importing #{count} cards", count) do
       j.each do |_, set_json|
-        set = MtgSet.import_from_mtgjson(set_json.except('cards'))
+        set = Import::Set.from_mtgjson(set_json.except('cards'))
         set_json['cards'].each do |card|
-          MtgCard.import_from_mtgjson(set, card)
+          Import::Card.from_mtgjson(set, card)
           Progress.step
         end
       end

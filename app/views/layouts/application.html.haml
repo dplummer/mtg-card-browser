@@ -1,0 +1,29 @@
+!!!
+%html{"lang" => "en"}
+  %head
+    %meta{"charset" => "utf-8"}
+    %meta{"http-equiv" => "X-UA-Compatible", "content" => "IE=edge"}
+    %meta{"name" => "viewport", "content" => "width=device-width, initial-scale=1"}
+    %title MtgCardBrowser
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-inverse{"role" => "navigation"}
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{:type => "button", "data-toggle" => "collapse", "data-target" => "#top-navbar"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{"href" => "#"} MTG Card Browser
+        #top-navbar.collapse.navbar-collapse
+          %form.navbar-form.navbar-left{:action => "/search", :method => "GET", :role => "search"}
+            .form-group
+              %input.form-control{:name => "q", :placeholder => "Search..."}/
+            %button.btn.btn-default{:type => "Submit"} Search
+          %ul.nav.navbar-nav.navbar-right
+            %li= link_to "Sets", "/sets"
+    .container-fluid
+      = yield

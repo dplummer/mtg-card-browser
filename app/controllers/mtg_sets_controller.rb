@@ -4,7 +4,7 @@ class MtgSetsController < ApplicationController
   end
 
   def show
-    @set = MtgSet.find params[:id]
-    @cards = @set.mtg_cards.order('card_number ASC').to_a
+    @set = MtgSet.find_by code: params[:set_code]
+    @cards = MtgCard.find_all_for_set(@set)
   end
 end

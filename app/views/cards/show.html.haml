@@ -1,0 +1,12 @@
+.row
+  .col-md-4
+    - if @card.previous_card
+      ←
+      = link_to @card.previous_card.name, @card.previous_card.url
+  .col-md-4
+    = link_to @card.set_name, @card.set_url
+  .col-md-4
+    - if @card.next_card
+      = link_to @card.next_card.name , @card.previous_card.url
+      →
+= render :partial => 'card', :object => @card

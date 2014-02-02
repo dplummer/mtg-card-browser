@@ -1,0 +1,29 @@
+.row
+  .col-md-3
+    %img{:src => card.image_url, :width => 320}
+  .col-md-6
+    %h1= link_to card.name, card.url
+    %p= "#{card.type_text}, #{card.mana_cost} (#{card.cmc})"
+    %p.card_text= card.text
+    %p.flavor= card.flavor
+    %p.artist
+      Illus.
+      = card.artist
+    .rulings
+      %h3
+        Gatherer Card Rulings
+        %span.hint= link_to "?", card.multiverse_url
+      %ul
+        - card.rulings.each do |ruling|
+          %li.ruling
+            %span.date #{ruling.date}:
+            = ruling.text
+  .col-md-3
+    %h3 Printings
+    %ul
+      - card.printings.each do |other_card|
+        %li= link_to_if (card != other_card), "##{other_card.number} (#{other_card.artist})"
+    %h3 Editions
+    %ul
+      - card.editions.each do |other_card|
+        %li= link_to_if (card != other_card), "#{other_card.set_name} (#{other_card.rarity})"

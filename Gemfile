@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.1.0.beta1'
 
 gem 'pg'
@@ -13,3 +12,9 @@ gem 'progress', require: false
 gem 'foreigner'
 gem 'haml'
 gem 'thin'
+
+gem 'quiet_assets', :group => :development
+
+gem "pry"
+gem "pry-doc"
+gem "pry-nav"
