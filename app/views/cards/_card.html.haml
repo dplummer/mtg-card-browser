@@ -4,7 +4,7 @@
   .col-md-6
     %h1= link_to card.name, card.url
     %p= "#{card.type_text}, #{card.mana_cost} (#{card.cmc})"
-    %p.card_text= card.text
+    %p.card-text= card.text
     %p.flavor= card.flavor
     %p.artist
       Illus.
@@ -18,6 +18,12 @@
           %li.ruling
             %span.date #{ruling.date}:
             = ruling.text
+      %h3
+        Legality
+        %span.hint= link_to "?", "http://www.wizards.com/Magic/TCG/Resources.aspx?x=judge/resources/banned"
+      %ul
+        - card.legalities.each do |legality|
+          %li= legality
   .col-md-3
     %h3 Printings
     %ul

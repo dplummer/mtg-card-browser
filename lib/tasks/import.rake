@@ -1,5 +1,5 @@
-namespace :mtgjson do
-  task :import => :environment do
+namespace :import do
+  task :mtgjson => :environment do
     if ENV['file'].blank? || !File.exists?(ENV['file'])
       warn "Specify the filename with file=FILENAME"
       exit
@@ -18,5 +18,9 @@ namespace :mtgjson do
         end
       end
     end
+  end
+
+  task :legality => :environment do
+    Import::Legality.run!
   end
 end

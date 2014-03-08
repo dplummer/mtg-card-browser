@@ -98,4 +98,10 @@ class MtgCard
       self.class.new(other_edition.mtg_set, other_edition, other_edition.printing, card)
     end
   end
+
+  def legalities
+    card.legality.map do |format, legalness|
+      %(<span class="legality #{legalness.downcase}">#{legalness} in #{format}</span>).html_safe
+    end
+  end
 end

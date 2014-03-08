@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 7) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 6) do
 
   create_table "cards", force: true do |t|
     t.string   "name"
-    t.string   "names",                  array: true
+    t.string   "names",                                            array: true
     t.string   "mana_cost"
     t.integer  "cmc"
-    t.string   "colors",                 array: true
+    t.string   "colors",                                           array: true
     t.string   "type_text"
-    t.string   "supertypes",             array: true
-    t.string   "card_types",             array: true
-    t.string   "subtypes",               array: true
+    t.string   "supertypes",                                       array: true
+    t.string   "card_types",                                       array: true
+    t.string   "subtypes",                                         array: true
     t.text     "text"
     t.string   "power"
     t.string   "toughness"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 6) do
     t.hstore   "foreign_names"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.hstore   "legality",               default: {}, null: false
   end
 
   create_table "editions", force: true do |t|
