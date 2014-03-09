@@ -21,7 +21,7 @@
         #top-navbar.collapse.navbar-collapse
           %form.navbar-form.navbar-left{:action => "/search", :method => "GET", :role => "search"}
             .form-group
-              %input.form-control{:name => "q", :placeholder => "Search..."}/
+              %input.form-control{:name => "q", :placeholder => "Search...", :value => "#{@query}"}/
             %button.btn.btn-default{:type => "Submit"} Search
           %ul.nav.navbar-nav.navbar-right
             %li= link_to "Sets", "/sets"

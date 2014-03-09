@@ -8,7 +8,8 @@ class CardsController < ApplicationController
   end
 
   def search
-    query = CardSearch.new(params)
-    @cards = query.cards
+    @query = params[:q]
+    search = CardSearch.new(@query)
+    @cards = search.cards
   end
 end

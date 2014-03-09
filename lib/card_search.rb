@@ -1,12 +1,12 @@
 class CardSearch
-  attr_reader :params
+  attr_reader :query
 
-  def initialize(params)
-    @params = params
+  def initialize(query)
+    @query = query
   end
 
   def cards
-    cards = Card.where("name ILIKE ?", "%#{params[:q]}%").
+    cards = Card.where("name ILIKE ?", "%#{query}%").
       order("name ASC")
 
     MtgCard.decorate_cards(cards)
