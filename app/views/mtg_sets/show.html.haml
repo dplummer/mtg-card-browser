@@ -11,7 +11,13 @@
   - @cards.each do |card|
     %tr
       %td= card.number
-      %td= link_to_if card.number, card.name, "/#{@set.code}/en/#{card.number}"
+      %td
+        - if card.number
+          = link_to card.name, "/#{@set.code}/en/#{card.number}"
+        - elsif card.multiverse_id
+          = link_to card.name, "/#{@set.code}/en/x#{card.multiverse_id}"
+        - else
+          = card.name
       %td= card.type_text
       %td= card.mana_cost
       %td= card.rarity

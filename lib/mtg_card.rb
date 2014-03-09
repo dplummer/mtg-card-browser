@@ -7,9 +7,27 @@ class MtgCard
     end.sort
   end
 
-  def self.find(set_code, language, card_number, dependencies = {})
-    set = dependencies.fetch(:set) { MtgSet.find_by(code: set_code) }
-    printing = Printing.where(number: card_number).
+  def self.find(options = {})
+    set = options.fetch(:set) { MtgSet.find_by(code: options[:set_code]) }
+
+    if options[:card_number]
+      scope = Printing.where(number: options[:card_number])
+    elsif options[:multiverse_id]
+      scope = Printing.where(multiverse_id: options[:multiverse_id])
+    else
+      return
+    end
+
+    printing = scope.
+      eager_load(:edition => :card).
+      where(editions: {mtg_set_id: set.id}).
+      first
+    new(set, printing.edition, printing, printing.edition.card) if printing
+  end
+
+  def self.find_with_multiverse_id(options)
+    multiverse_id = options.fetch(:multiverse_id)
+    printing = Printing.where(multiverse_id: multiverse_id).
       eager_load(:edition => :card).
       where(editions: {mtg_set_id: set.id}).
       first
@@ -78,13 +96,15 @@ class MtgCard
   end
 
   def previous_card
-    if number > 1
+    if number && number > 1
       @previous_card ||= self.class.find(set_code, "en", number - 1, set: set)
     end
   end
 
   def next_card
-    @next_card ||= self.class.find(set_code, "en", number + 1, set: set)
+    if number
+      @next_card ||= self.class.find(set_code, "en", number + 1, set: set)
+    end
   end
 
   def printings
