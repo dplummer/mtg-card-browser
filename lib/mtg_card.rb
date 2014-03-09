@@ -97,13 +97,19 @@ class MtgCard
 
   def previous_card
     if number && number > 1
-      @previous_card ||= self.class.find(set_code, "en", number - 1, set: set)
+      @previous_card ||= self.class.find(set_code: set_code,
+                                         language: "en",
+                                         number: number - 1,
+                                         set: set)
     end
   end
 
   def next_card
     if number
-      @next_card ||= self.class.find(set_code, "en", number + 1, set: set)
+      @next_card ||= self.class.find(set_code: set_code,
+                                     language: "en",
+                                     number: number + 1,
+                                     set: set)
     end
   end
 
