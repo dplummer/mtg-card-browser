@@ -1,4 +1,4 @@
-%table.table
+%table.table.mtg_sets
   %tr
     %th Name
     %th Code
@@ -6,9 +6,9 @@
     %th Release Date
     %th Block
   - @sets.each do |set|
-    %tr
-      %td= link_to set.name, "/#{set.code}/en"
-      %td= set.code
-      %td= set.release_type
-      %td= set.release_date
-      %td= set.block
+    %tr.mtg_set[set]
+      %td.name= link_to set.name, "/#{set.code}/en"
+      %td.code= set.code
+      %td.release_type= set.release_type
+      %td.release_date= set.release_date
+      %td.block= set.block

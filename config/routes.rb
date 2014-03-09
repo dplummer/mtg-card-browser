@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "search" => "cards#search"
 
-  get "sets", to: "mtg_sets#index", as: "mtg_set"
+  get "sets", to: "mtg_sets#index", as: "mtg_sets"
 
   get ":set_code/:language", to: "mtg_sets#show"
 

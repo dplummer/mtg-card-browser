@@ -1,6 +1,6 @@
 class MtgSetsController < ApplicationController
   def index
-    @sets = MtgSet.all
+    @sets = MtgSet.order("release_date DESC").to_a
   end
 
   def show
