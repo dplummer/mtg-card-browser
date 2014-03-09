@@ -18,7 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'capybara', group: [:development, :test]
 gem 'capybara-screenshot', group: :test
-gem 'cucumber-rails', group: [:development, :test]
+gem 'cucumber-rails', group: [:test], require: false
 gem 'database_cleaner', group: :test
 gem 'guard', group: :development
 gem 'guard-bundler', group: :development
