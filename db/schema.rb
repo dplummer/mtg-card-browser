@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 20140309180352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,17 @@ ActiveRecord::Schema.define(version: 6) do
   add_index "editions", ["card_id"], name: "index_editions_on_card_id", using: :btree
   add_index "editions", ["mtg_set_id"], name: "index_editions_on_mtg_set_id", using: :btree
 
+  create_table "mtg_set_icons", force: true do |t|
+    t.integer  "mtg_set_id"
+    t.string   "filename"
+    t.string   "rarity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mtg_set_icons", ["filename"], name: "index_mtg_set_icons_on_filename", unique: true, using: :btree
+  add_index "mtg_set_icons", ["mtg_set_id"], name: "index_mtg_set_icons_on_mtg_set_id", using: :btree
+
   create_table "mtg_sets", force: true do |t|
     t.string   "name"
     t.string   "code"
@@ -87,6 +98,8 @@ ActiveRecord::Schema.define(version: 6) do
 
   add_foreign_key "editions", "cards", name: "editions_card_id_fk", dependent: :delete
   add_foreign_key "editions", "mtg_sets", name: "editions_mtg_set_id_fk", dependent: :delete
+
+  add_foreign_key "mtg_set_icons", "mtg_sets", name: "mtg_set_icons_mtg_set_id_fk", dependent: :delete
 
   add_foreign_key "printings", "editions", name: "printings_edition_id_fk", dependent: :delete
 

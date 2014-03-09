@@ -1,5 +1,6 @@
 %table.table.mtg_sets
   %tr
+    %th
     %th Name
     %th Code
     %th Release Type
@@ -7,6 +8,9 @@
     %th Block
   - @sets.each do |set|
     %tr.mtg_set[set]
+      %td.icon
+        - if icon = set.default_icon
+          = image_tag "/images/icons/#{icon.filename}", width: 16
       %td.name= link_to set.name, "/#{set.code}/en"
       %td.code= set.code
       %td.release_type= set.release_type
