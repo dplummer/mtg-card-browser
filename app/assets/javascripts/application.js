@@ -13,4 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_tree .
+//= require angular
+//= require angular-resource
+//= require angular-ui-router
+//= require mtg_app
+//= require_directory ./controllers
+//= require_directory ./services

@@ -1,13 +1,12 @@
 namespace :mtgjson do
-  task :import => :environment do
-    if ENV['file'].blank? || !File.exists?(ENV['file'])
-      warn "Specify the filename with file=FILENAME"
-      exit
+  task :import, [:filename] => :environment do |t, args|
+    if args[:filename].blank?
+      warn "You must specify a filename"
+      exit(1)
     end
-
     require 'progress'
 
-    j = JSON.parse(File.read(ENV['file']))
+    j = JSON.parse(File.read(args[:filename]))
     count = j.map {|_, set| set['cards'].length}.sum
     Progress.start("Importing #{count} cards", count) do
       j.each do |_, set_json|

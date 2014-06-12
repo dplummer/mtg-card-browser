@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.1.1'
 
+gem 'active_model_serializers'
+gem 'angularjs-rails'
 gem 'foreigner'
 gem 'haml'
 gem 'jquery-rails'

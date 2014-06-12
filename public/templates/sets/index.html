@@ -1,0 +1,28 @@
+<table class='table mtg_sets'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Release Type</th>
+      <th>Release Date</th>
+      <th>Block</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='mtg_set' ng-repeat='mtg_set in mtg_sets'>
+      <td class='icon'>
+        <img ng-show="mtg_set.icon" ng-src="{{ mtg_set.icon }}" width=16 />
+      </td>
+      <td class='name'>
+        <a ui-sref="sets.show({code: mtg_set.code, lang: 'en'})">
+          {{ mtg_set.name }}
+        </a>
+      </td>
+      <td class='code'>{{ mtg_set.code }}</td>
+      <td class='release_type'>{{ mtg_set.release_type }}</td>
+      <td class='release_date'>{{ mtg_set.release_date }}</td>
+      <td class='block'>{{ mtg_set.block }}</td>
+    </tr>
+  </tbody>
+</table>
