@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-4">
+    <div ng-show="card.previous_card">
+      ←
+      <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.previous_card.number})">{{card.previous_card.name}}</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <a ui-sref="sets.show({code: card.set.code, lang: 'en'})">{{card.set.name}}</a>
+  </div>
+
+  <div class="col-md-4">
+    <div ng-show="card.next_card">
+      <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.next_card.number})">{{card.next_card.name}}</a>
+      →
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-md-3'>
+    <img ng-src="{{card.image_url}}" width='320'>
+  </div>
+  <div class='col-md-6'>
+    <h1><a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
+    <p>{{card.type_text}}, {{card.mana_cost}} ({{card.cmc}})</p>
+    <p class='card_text'>{{card.text}}</p>
+    <p class='flavor'>{{card.flavor}}</p>
+    <p class='artist'>
+      Illus.
+      {{card.artist}}
+    </p>
+    <div class='rulings'>
+      <h3>
+        Gatherer Card Rulings
+        <span class='hint'><a href="{{card.multiverse_url}}">?</a></span>
+      </h3>
+      <ul ng-show="card.rulings">
+        <li ng-repeat="ruling in card.rulings" class="ruling">
+          <span class="date">{{ruling.date}}:</span>
+          {{ruling.text}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class='col-md-3'>
+    <h3>Printings</h3>
+    <ul class="printings">
+      <li ng-repeat="printing in card.printings">
+        <div ng-hide="printing.current_printing">
+          <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
+        </div>
+
+        <div ng-show="printing.current_printing">
+          #{{printing.number}} ({{printing.artist}})
+        </div>
+      </li>
+    </ul>
+    <h3>Editions</h3>
+    <ul class="editions">
+      <li ng-repeat="edition in card.editions">
+        <span ng-hide="edition.current_edition">
+          <a ui-sref="sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
+        </span>
+
+        <span ng-show="edition.current_edition">
+          {{edition.set.name}}
+        </span>
+
+        <span ng-show="edition.rarity">({{edition.rarity}})</span>
+      </li>
+    </ul>
+  </div>
+</div>

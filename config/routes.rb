@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get ":set_code/:language", to: "mtg_sets#show"
 
-  get ":set_code/:language/:card_number",
+  get ":set_code/:language/:card_number(.:format)",
     to: "cards#show",
     as: "card",
     constraints: { card_number: /\d+/ }

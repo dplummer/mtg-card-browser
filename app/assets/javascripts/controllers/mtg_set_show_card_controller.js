@@ -1,13 +1,13 @@
 angular.module('mtgApp.controllers').
-  controller('MtgSetShowController', [
+  controller('MtgSetShowCardController', [
       '$scope',
       '$http',
       '$stateParams',
 
     function($scope, $http, $stateParams) {
-      $http.get('/'+$stateParams.code+'/'+$stateParams.lang+'.json').
+      $http.get('/'+$stateParams.code+'/'+$stateParams.lang+'/'+$stateParams.number+'.json').
         success(function(data) {
-          $scope.mtg_set = data.mtg_set;
+          $scope.card = data.mtg_card;
         });
     }]
   );

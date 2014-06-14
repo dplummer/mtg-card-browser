@@ -7,13 +7,13 @@ class MtgCard
     end.sort
   end
 
-  def self.find(options = {})
-    set = options.fetch(:set) { MtgSet.find_by(code: options[:set_code]) }
+  def self.find(card_number:, set:nil, multiverse_id:nil, set_code:nil)
+    set = set || MtgSet.find_by(code: set_code)
 
-    if options[:card_number]
-      scope = Printing.where(number: options[:card_number])
-    elsif options[:multiverse_id]
-      scope = Printing.where(multiverse_id: options[:multiverse_id])
+    if card_number
+      scope = Printing.where(number: card_number)
+    elsif multiverse_id
+      scope = Printing.where(multiverse_id: multiverse_id)
     else
       return
     end
@@ -71,6 +71,10 @@ class MtgCard
     "http://mtgimage.com/set/#{set_code}/#{mtgimage_name}.jpg" if mtgimage_name
   end
 
+  def read_attribute_for_serialization(attr)
+    send(attr)
+  end
+
   def ==(b)
     printing.id == b.printing.id
   end
@@ -98,8 +102,7 @@ class MtgCard
   def previous_card
     if number && number > 1
       @previous_card ||= self.class.find(set_code: set_code,
-                                         language: "en",
-                                         number: number - 1,
+                                         card_number: number - 1,
                                          set: set)
     end
   end
@@ -107,8 +110,7 @@ class MtgCard
   def next_card
     if number
       @next_card ||= self.class.find(set_code: set_code,
-                                     language: "en",
-                                     number: number + 1,
+                                     card_number: number + 1,
                                      set: set)
     end
   end
@@ -120,7 +122,7 @@ class MtgCard
   end
 
   def editions
-    card.editions.eager_load(:printing, :mtg_set).map do |other_edition|
+    card.editions.eager_load(:printing, :mtg_set).order("mtg_sets.release_date DESC").map do |other_edition|
       self.class.new(other_edition.mtg_set, other_edition, other_edition.printing, card)
     end
   end

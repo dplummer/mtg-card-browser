@@ -35,6 +35,15 @@ mtgApp.config(['$stateProvider',
           }
         }
       })
+      .state('sets.show.card', {
+        url: '^/:code/:lang/:number',
+        views: {
+          '@': {
+            templateUrl: '/templates/sets/card.html',
+            controller: 'MtgSetShowCardController'
+          }
+        }
+      })
   }
 ]);
 
