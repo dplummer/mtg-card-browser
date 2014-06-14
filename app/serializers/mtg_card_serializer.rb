@@ -42,6 +42,7 @@ class MtgCardSerializer < ActiveModel::Serializer
       {
         current_edition: edition == object,
         number: edition.number,
+        rarity: edition.rarity,
         set: {
           code: edition.set.code,
           name: edition.set.name
