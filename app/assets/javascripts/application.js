@@ -11,11 +11,12 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require bootstrap
+//= require foundation
 //= require angular
 //= require angular-resource
 //= require angular-ui-router
 //= require mtg_app
 //= require_directory ./controllers
 //= require_directory ./services
+
+$(function(){ $(document).foundation(); });

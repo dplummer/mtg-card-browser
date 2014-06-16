@@ -1,4 +1,4 @@
-%table.table.mtg_sets
+%table
   %tr
     %th
     %th Name
@@ -7,12 +7,12 @@
     %th Release Date
     %th Block
   - @sets.each do |set|
-    %tr.mtg_set[set]
-      %td.icon
+    %tr
+      %td
         - if icon = set.default_icon
           = image_tag "/images/icons/#{icon.filename}", width: 16
-      %td.name= link_to set.name, "/#{set.code}/en"
-      %td.code= set.code
-      %td.release_type= set.release_type
-      %td.release_date= set.release_date
-      %td.block= set.block
+      %td= link_to set.name, "/#{set.code}/en"
+      %td= set.code
+      %td= set.release_type
+      %td= set.release_date
+      %td= set.block

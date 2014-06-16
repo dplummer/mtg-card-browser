@@ -7,24 +7,21 @@
     %title MtgCardBrowser
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag "application"
+    = javascript_include_tag "vendor/modernizr"
     = csrf_meta_tags
   %body
-    .navbar.navbar{"role" => "navigation"}
-      .container-fluid
-        .navbar-header
-          %button.navbar-toggle{:type => "button", "data-toggle" => "collapse", "data-target" => "#top-navbar"}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.navbar-brand{"href" => "/"} MTG Card Browser
-        #top-navbar.collapse.navbar-collapse
-          %form.navbar-form.navbar-left{:action => "/search", :method => "GET", :role => "search"}
-            .form-group
-              %input.form-control{:name => "q", :placeholder => "Search...", :value => "#{@query}"}/
-            %button.btn.btn-default{:type => "Submit"} Search
-          %ul.nav.navbar-nav.navbar-right
-            %li= link_to "Sets", "/sets"
-    .container-fluid{"ui-view" => true}
-      %noscript
-        = yield
+    %nav.top-bar{"data-topbar" => true}
+      %ul.title-area
+        %li.name
+          %h1
+            %a.navbar-brand{"href" => "/"} MTG Card Browser
+      %section.top-bar-section
+        %ul.right
+          %li
+            = link_to "Sets", "/sets"
+        %ul.left
+          %li.form
+            %input.form-control{:name => "q", :placeholder => "Search...", :value => "#{@query}"}/
+    %div{"ui-view" => true}
+    %noscript
+      = yield

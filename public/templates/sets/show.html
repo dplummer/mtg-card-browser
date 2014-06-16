@@ -1,10 +1,9 @@
 <h1>{{ mtg_set.name }}</h1>
 
-<table class="table">
+<table>
   <thead>
     <tr>
-      <th></th>
-      <th>Number</th>
+      <th>#</th>
       <th>Name</th>
       <th>Type</th>
       <th>Mana</th>
@@ -14,7 +13,6 @@
   </thead>
   <tbody>
     <tr ng-repeat="card in mtg_set.cards">
-      <td><img ng-show="card.image_url" ng-src="{{card.image_url}}" height="30"></td>
       <td>{{card.number}}</td>
       <td><a ui-sref="sets.show.card({code: mtg_set.code, lang: 'en', number: card.number})">{{card.name}}</a></td>
       <td>{{card.type_text}}</td>
