@@ -19,9 +19,9 @@
         %ul.right
           %li
             = link_to "Sets", "/sets"
-        %ul.left
-          %li.form
-            %input.form-control{:name => "q", :placeholder => "Search...", :value => "#{@query}"}/
+        -# %ul.left
+        -#   %li.form
+        -#   %input.form-control{:name => "q", :placeholder => "Search...", :value => "#{@query}"}/
     %div{"ui-view" => true}
     %noscript
       = yield
