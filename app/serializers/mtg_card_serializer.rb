@@ -1,6 +1,9 @@
 class MtgCardSerializer < ActiveModel::Serializer
   attributes :number, :name, :type_text, :mana_cost, :rarity, :artist,
-    :image_url, :previous_card, :next_card, :set, :printings, :editions
+    :image_url, :previous_card, :next_card, :set, :printings, :editions,
+    :text, :cmc, :flavor
+
+  has_many :rulings
 
   def previous_card
     if object.previous_card

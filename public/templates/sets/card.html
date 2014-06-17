@@ -1,16 +1,16 @@
-<div class="row">
-  <div class="columns small-4">
+<div class="set-card-nav">
+  <div class="previous">
     <div ng-show="card.previous_card">
       ←
       <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.previous_card.number})">{{card.previous_card.name}}</a>
     </div>
   </div>
 
-  <div class="columns small-4">
+  <div class="current">
     <a ui-sref="sets.show({code: card.set.code, lang: 'en'})">{{card.set.name}}</a>
   </div>
 
-  <div class="columns small-4">
+  <div class="next">
     <div ng-show="card.next_card">
       <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.next_card.number})">{{card.next_card.name}}</a>
       →
@@ -18,11 +18,11 @@
   </div>
 </div>
 
-<div class='row'>
-  <div class='columns medium-4'>
+<div class='card'>
+  <div class='image'>
     <img ng-src="{{card.image_url}}">
   </div>
-  <div class='columns medium-6'>
+  <div class='details'>
     <h1><a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
     <p>{{card.type_text}}, {{card.mana_cost}} ({{card.cmc}})</p>
     <p class='card_text'>{{card.text}}</p>
@@ -32,10 +32,10 @@
       {{card.artist}}
     </p>
     <div class='rulings'>
-      <h3>
+      <h4>
         Gatherer Card Rulings
         <span class='hint'><a href="{{card.multiverse_url}}">?</a></span>
-      </h3>
+      </h4>
       <ul ng-show="card.rulings">
         <li ng-repeat="ruling in card.rulings" class="ruling">
           <span class="date">{{ruling.date}}:</span>
@@ -43,8 +43,14 @@
         </li>
       </ul>
     </div>
+    <div class='legality'>
+      <h4>
+        Legality
+        <span class='hint'><a href="http://www.wizards.com/Magic/TCG/Resources.aspx?x=judge/resources/banned">?</a></span>
+      </h4>
+    </div>
   </div>
-  <div class='columns medium-2'>
+  <div class='related'>
     <h3>Printings</h3>
     <ul class="printings">
       <li ng-repeat="printing in card.printings">
@@ -52,7 +58,7 @@
           <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
         </div>
 
-        <div ng-show="printing.current_printing">
+        <div ng-show="printing.current_printing" class="current">
           #{{printing.number}} ({{printing.artist}})
         </div>
       </li>
@@ -64,7 +70,7 @@
           <a ui-sref="sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
         </span>
 
-        <span ng-show="edition.current_edition">
+        <span ng-show="edition.current_edition" class="current">
           {{edition.set.name}}
         </span>
 

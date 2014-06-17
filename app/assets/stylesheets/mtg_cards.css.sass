@@ -1,5 +1,55 @@
-// Place all the styles related to the MtgCards controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 .ruling .date
   font-weight: bold
+.set-card-nav
+  @extend .row
+  padding: 10px 0
+  font-size: 0.8rem
+  margin-bottom: 10px
+  border-bottom: 1px solid #ccc
+  .previous, .next, .current
+    @extend .columns
+    @extend .small-4
+    a
+      padding: 10px 0
+  .current
+    text-align: center
+  .next
+    text-align: right
+
+.card
+  @extend .row
+  .image
+    @extend .columns
+    @extend .medium-4
+  .details
+    @extend .columns
+    @extend .medium-5
+  .related
+    @extend .columns
+    @extend .medium-3
+    h3
+      font-size: 1.0rem
+      font-weight: bold
+      text-decoration: underline
+    ul
+      padding: 0
+      margin: 0
+    li
+      font-size: 0.8rem
+      list-style: none
+      .current
+        font-weight: bold
+  .details
+    h1
+      font-size: 1.4rem
+    .card_text
+      font-weight: bold
+      background-color: #fff
+      padding: 10px
+    .flavor
+      font-style: italic
+    h4
+      font-size: 1.0rem
+      font-weight: bold
+    .ruling, .legality
+      font-size: 0.8rem
