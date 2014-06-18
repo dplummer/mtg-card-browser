@@ -28,3 +28,7 @@ gem 'guard-bundler', group: :development
 gem 'guard-cucumber', group: :development
 gem 'guard-rspec', group: :development
 gem 'rspec-rails', group: [:development, :test]
+
+gem 'vlad', require: false, group: [:development, :test]
+gem 'vlad-assets', require: false, group: [:development, :test]
+gem 'vlad-git', require: false, group: [:development, :test]
