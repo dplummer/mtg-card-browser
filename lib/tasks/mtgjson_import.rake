@@ -7,17 +7,17 @@ namespace :mtgjson do
     require 'progress'
 
     j = JSON.parse(File.read(args[:filename]))
-    if j.is_a?(Array)
+    if j.key?('cards')
+      count = j['cards'].length
+      Progress.start("Importing #{count} cards", count) do
+        import_set(j)
+      end
+    else
       count = j.map {|_, set| set['cards'].length}.sum
       Progress.start("Importing #{count} cards", count) do
         j.each do |_, set_json|
           import_set(set_json)
         end
-      end
-    else
-      count = j['cards'].length
-      Progress.start("Importing #{count} cards", count) do
-        import_set(j)
       end
     end
   end
