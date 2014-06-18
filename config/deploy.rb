@@ -21,9 +21,10 @@ end
 set :rake_cmd, "#{bundle_cmd} exec rake"
 
 set :shared_paths, shared_paths.merge({
-  'tmp'                   => 'tmp',
-  'assets'                => 'public/assets',
-  'database.yml'          => 'config/database.yml'
+  'tmp'          => 'tmp',
+  'assets'       => 'public/assets',
+  'database.yml' => 'config/database.yml',
+  'secrets.yml'  => 'config/secrets.yml',
 })
 
 if ENV['hostname']
