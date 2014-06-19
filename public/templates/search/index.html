@@ -34,8 +34,6 @@
           <img ng-src="{{ edition.set.icon }}" width=16 />
           <a ui-sref="mtg.sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
         </span>
-
-        <span ng-show="edition.rarity">({{edition.rarity}})</span>
       </li>
     </ul>
   </div>

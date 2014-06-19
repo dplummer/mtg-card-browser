@@ -7,7 +7,11 @@ class MtgSet < ActiveRecord::Base
   end
 
   def default_icon
-    mtg_set_icons.detect {|icon| icon.rarity == 'common'} ||
+    icon_by_rarity('common')
+  end
+
+  def icon_by_rarity(rarity)
+    mtg_set_icons.detect {|icon| icon.rarity == rarity} ||
       mtg_set_icons.to_a.first
   end
 end

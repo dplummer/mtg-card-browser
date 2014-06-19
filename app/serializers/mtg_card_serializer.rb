@@ -51,7 +51,7 @@ class MtgCardSerializer < ActiveModel::Serializer
         set: {
           code: edition.set.code,
           name: edition.set.name,
-          icon: icon_url(edition.set.default_icon)
+          icon: icon_url(edition.set.icon_by_rarity(edition.rarity.downcase))
         }
       }
     end
