@@ -4,6 +4,7 @@
       ←
       <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.previous_card.number})">{{card.previous_card.name}}</a>
     </div>
+    &nbsp;
   </div>
 
   <div class="current">
@@ -11,6 +12,7 @@
   </div>
 
   <div class="next">
+    &nbsp;
     <div ng-show="card.next_card">
       <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.next_card.number})">{{card.next_card.name}}</a>
       →
