@@ -3,7 +3,7 @@
     <img ng-src="{{card.image_url}}">
   </div>
   <div class='details'>
-    <h1><a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
+    <h1><a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
     <p>{{card.type_text}}, {{card.mana_cost}} ({{card.cmc}})</p>
     <p class='card_text'>{{card.text}}</p>
     <p class='flavor'>{{card.flavor}}</p>
@@ -23,7 +23,7 @@
     <ul class="printings">
       <li ng-repeat="printing in card.printings">
         <div>
-          <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
+          <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
         </div>
       </li>
     </ul>
@@ -32,7 +32,7 @@
       <li ng-repeat="edition in card.editions">
         <span>
           <img ng-src="{{ edition.set.icon }}" width=16 />
-          <a ui-sref="sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
+          <a ui-sref="mtg.sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
         </span>
 
         <span ng-show="edition.rarity">({{edition.rarity}})</span>

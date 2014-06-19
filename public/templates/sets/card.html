@@ -2,17 +2,17 @@
   <div class="previous">
     <div ng-show="card.previous_card">
       ←
-      <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.previous_card.number})">{{card.previous_card.name}}</a>
+      <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.previous_card.number})">{{card.previous_card.name}}</a>
     </div>
   </div>
 
   <div class="current">
-    <a ui-sref="sets.show({code: card.set.code, lang: 'en'})">{{card.set.name}}</a>
+    <a ui-sref="mtg.sets.show({code: card.set.code, lang: 'en'})">{{card.set.name}}</a>
   </div>
 
   <div class="next">
     <div ng-show="card.next_card">
-      <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.next_card.number})">{{card.next_card.name}}</a>
+      <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.next_card.number})">{{card.next_card.name}}</a>
       →
     </div>
   </div>
@@ -23,7 +23,7 @@
     <img ng-src="{{card.image_url}}">
   </div>
   <div class='details'>
-    <h1><a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
+    <h1><a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
     <p>{{card.type_text}}, {{card.mana_cost}} ({{card.cmc}})</p>
     <p class='card_text'>{{card.text}}</p>
     <p class='flavor'>{{card.flavor}}</p>
@@ -56,7 +56,7 @@
     <ul class="printings">
       <li ng-repeat="printing in card.printings">
         <div ng-hide="printing.current_printing">
-          <a ui-sref="sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
+          <a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: printing.number})">#{{printing.number}} ({{printing.artist}})</a>
         </div>
 
         <div ng-show="printing.current_printing" class="current">
@@ -69,7 +69,7 @@
       <li ng-repeat="edition in card.editions">
         <span ng-hide="edition.current_edition">
           <img ng-src="{{ edition.set.icon }}" width=16 />
-          <a ui-sref="sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
+          <a ui-sref="mtg.sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
         </span>
 
         <span ng-show="edition.current_edition" class="current">

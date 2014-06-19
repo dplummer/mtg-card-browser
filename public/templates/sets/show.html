@@ -14,7 +14,7 @@
   <tbody>
     <tr ng-repeat="card in mtg_set.cards">
       <td>{{card.number}}</td>
-      <td><a ui-sref="sets.show.card({code: mtg_set.code, lang: 'en', number: card.number})">{{card.name}}</a></td>
+      <td><a ui-sref="mtg.sets.show.card({code: mtg_set.code, lang: 'en', number: card.number})">{{card.name}}</a></td>
       <td>{{card.type_text}}</td>
       <td>{{card.mana_cost}}</td>
       <td>{{card.rarity}}</td>
