@@ -35,7 +35,7 @@ class MtgCard
   end
 
   def self.decorate_cards(cards)
-    cards.includes(:edition => [:mtg_set, :printing]).map do |card|
+    cards.includes(:rulings, :edition => [{:mtg_set => :mtg_set_icons}, :printing]).map do |card|
       edition = card.edition
       new(edition.mtg_set, edition, edition.printing, card)
     end

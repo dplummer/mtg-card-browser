@@ -11,8 +11,9 @@ class CardsController < ApplicationController
   end
 
   def search
-    @query = params[:q]
-    search = CardSearch.new(@query)
+    query = params[:q]
+    search = CardSearch.new(query)
     @cards = search.cards
+    respond_with(@cards, each_serializer: MtgCardSerializer)
   end
 end

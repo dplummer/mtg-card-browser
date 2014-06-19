@@ -7,7 +7,8 @@ class CardSearch
 
   def cards
     cards = Card.where("name ILIKE ?", "%#{query}%").
-      order("name ASC")
+      order("name ASC").
+      limit(10)
 
     MtgCard.decorate_cards(cards)
   end

@@ -18,7 +18,26 @@ mtgApp.config(['$stateProvider',
     $urlRouterProvider.otherwise("/");
 
     $stateProvider
-      .state('sets', {
+      .state('mtg', {
+        url: '',
+        abstract: true,
+        views: {
+          'search': {
+            templateUrl: '/templates/search/form.html',
+            controller: 'SearchController'
+          }
+        }
+      })
+      .state('mtg.search', {
+        url: '/search?q',
+        views: {
+          '@': {
+            templateUrl: '/templates/search/index.html',
+            controller: 'SearchResultsController'
+          }
+        }
+      })
+      .state('mtg.sets', {
         url: '/',
         views: {
           '@': {
@@ -27,7 +46,7 @@ mtgApp.config(['$stateProvider',
           }
         }
       })
-      .state('sets.show', {
+      .state('mtg.sets.show', {
         url: ':code/:lang',
         views: {
           '@': {
@@ -36,7 +55,7 @@ mtgApp.config(['$stateProvider',
           }
         }
       })
-      .state('sets.show.card', {
+      .state('mtg.sets.show.card', {
         url: '^/:code/:lang/:number',
         views: {
           '@': {
