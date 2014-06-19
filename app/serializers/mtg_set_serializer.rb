@@ -1,4 +1,6 @@
 class MtgSetSerializer < ActiveModel::Serializer
+  include MtgSetIconHelper
+
   attributes :id, :code, :name, :release_type, :release_date, :block, :icon,
     :cards
 
@@ -17,8 +19,6 @@ class MtgSetSerializer < ActiveModel::Serializer
   end
 
   def icon
-    if icon = object.default_icon
-      "/images/icons/#{icon.filename}"
-    end
+    icon_url(object.default_icon)
   end
 end

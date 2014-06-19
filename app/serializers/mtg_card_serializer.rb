@@ -1,7 +1,9 @@
 class MtgCardSerializer < ActiveModel::Serializer
+  include MtgSetIconHelper
+
   attributes :number, :name, :type_text, :mana_cost, :rarity, :artist,
     :image_url, :previous_card, :next_card, :set, :printings, :editions,
-    :text, :cmc, :flavor
+    :text, :cmc, :flavor, :multiverse_id
 
   has_many :rulings
 
@@ -48,7 +50,8 @@ class MtgCardSerializer < ActiveModel::Serializer
         rarity: edition.rarity,
         set: {
           code: edition.set.code,
-          name: edition.set.name
+          name: edition.set.name,
+          icon: icon_url(edition.set.default_icon)
         }
       }
     end

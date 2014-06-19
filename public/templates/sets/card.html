@@ -49,6 +49,7 @@
         <span class='hint'><a href="http://www.wizards.com/Magic/TCG/Resources.aspx?x=judge/resources/banned">?</a></span>
       </h4>
     </div>
+    <p ng-show="card.multiverse_id"><a href="http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid={{ card.multiverse_id }}">{{ card.name }} on Gatherer</a></p>
   </div>
   <div class='related'>
     <h3>Printings</h3>
@@ -67,10 +68,12 @@
     <ul class="editions">
       <li ng-repeat="edition in card.editions">
         <span ng-hide="edition.current_edition">
+          <img ng-src="{{ edition.set.icon }}" width=16 />
           <a ui-sref="sets.show.card({code: edition.set.code, lang: 'en', number: edition.number})">{{edition.set.name}}</a>
         </span>
 
         <span ng-show="edition.current_edition" class="current">
+          <img ng-src="{{ edition.set.icon }}" width=16 />
           {{edition.set.name}}
         </span>
 
