@@ -1,7 +1,8 @@
 var mtgApp = angular.module('mtgApp', [
     'ui.router',
     'mtgApp.controllers',
-    'mtgApp.services'
+    'mtgApp.services',
+    'angulartics.google.analytics'
     ]);
 
 angular.module('mtgApp.controllers', []);

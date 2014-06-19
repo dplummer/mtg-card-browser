@@ -15,6 +15,8 @@
 //= require angular
 //= require angular-resource
 //= require angular-ui-router
+//= require angulartics
+//= require angulartics-ga
 //= require mtg_app
 //= require_directory ./controllers
 //= require_directory ./services
