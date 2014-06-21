@@ -1,0 +1,45 @@
+.mtg-sets
+  margin: 10px
+  table
+    width: 100%
+    max-width: 1000px
+    .code, .release-type, .block, .release-date
+      @extend .show-for-medium-up
+  ul
+    margin: 0
+    padding: 0
+    background: white
+    border: 1px solid #dddddd
+    margin-bottom: 1.25rem
+    li
+      list-style: none
+      padding: 10px
+      margin: 2px
+      &:nth-of-type(odd)
+        background: #e0e0e0
+  @media only screen
+    a
+      display: block
+      text-decoration: none
+    .name
+      text-decoration: underline
+      display: block
+      clear: right
+    .icon
+      display: inline-block
+      float: left
+      width: 20px
+    .code
+      font-weight: bold
+    .code, .release-type
+      margin-right: 10px
+    .code, .release-type, .release-date
+      display: inline-block
+      font-size: 0.9rem
+      color: #333333
+      label
+        display: inline
+        font-style: italic
+  @media only screen and (min-width: 64.063em)
+    .name
+      clear: none
