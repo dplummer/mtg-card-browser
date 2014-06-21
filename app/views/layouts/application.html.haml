@@ -15,12 +15,7 @@
         %li.name
           %h1
             %a.navbar-brand{"href" => "/"} MTG Card Browser
-      %section.top-bar-section
-        %ul.right
-          %li
-            = link_to "Sets", "/sets"
-        %ul.left
-          %li.form{"ui-view" => "search"}
+    .search-form{"ui-view" => "search"}
     %div{"ui-view" => true}
     %noscript
       = yield
