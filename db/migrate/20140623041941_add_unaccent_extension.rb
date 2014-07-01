@@ -3,7 +3,7 @@ class AddUnaccentExtension < ActiveRecord::Migration
     execute "CREATE EXTENSION unaccent"
   end
 
-  def up
+  def down
     execute "DROP EXTENSION unaccent"
   end
 end
