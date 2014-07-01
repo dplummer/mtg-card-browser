@@ -9,7 +9,6 @@ namespace :cc do
 
     Progress.start("importing #{lines} cc catalog ids", lines) do
       CSV.foreach(filename, headers: true) do |row|
-        next if row['id'].to_i < 942779
         name = row['name'].gsub(/AE/, 'A').gsub(/ \(\d+\)/, '')
 
         skip_sets = [
