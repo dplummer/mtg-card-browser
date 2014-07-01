@@ -5,7 +5,7 @@
     </div>
     <div class='details'>
       <h1><a ui-sref="mtg.sets.show.card({code: card.set.code, lang: 'en', number: card.number})">{{card.name}}</a></h1>
-      <p>{{card.type_text}}, {{card.mana_cost}} ({{card.cmc}})</p>
+      <p>{{card.type_text}}<span ng-show="card.mana_cost">, {{card.mana_cost}}</span> <span ng-show="card.cmc">({{card.cmc}})</span></p>
       <p class='card_text'>{{card.text}}</p>
       <p class='flavor'>{{card.flavor}}</p>
       <p class='artist'>

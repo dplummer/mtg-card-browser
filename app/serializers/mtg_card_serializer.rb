@@ -3,9 +3,22 @@ class MtgCardSerializer < ActiveModel::Serializer
 
   attributes :number, :name, :type_text, :mana_cost, :rarity, :artist,
     :image_url, :previous_card, :next_card, :set, :printings, :editions,
-    :text, :cmc, :flavor, :multiverse_id
+    :text, :cmc, :flavor, :multiverse_id, :printing_id, :other_part
 
   has_many :rulings
+
+  def printing_id
+    object.printing.id
+  end
+
+  def other_part
+    if object.other_part
+      {
+        name: object.other_part.name,
+        number: object.other_part.number
+      }
+    end
+  end
 
   def previous_card
     if object.previous_card

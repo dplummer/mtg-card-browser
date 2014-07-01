@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get ":set_code/:language/:card_number(.:format)",
     to: "cards#show",
     as: "card",
-    constraints: { card_number: /\d+/ }
+    constraints: { card_number: /[STP]?\d+[ab]?/ }
 
   get ":set_code/:language/x:multiverse_id",
     to: "cards#show",

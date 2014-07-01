@@ -4,8 +4,8 @@ module Import
       printing = ::Printing.find_or_initialize_by(edition_id: edition.id,
                                                   multiverse_id: json['multiverseid'])
       printing.artist        = json['artist'] unless json['artist'].nil?
-      printing.mtgimage_name = json['imageName'] unless json['artist'].nil?
-      printing.number        = json['number'] unless json['artist'].nil?
+      printing.mtgimage_name = json['imageName'] unless json['imageName'].nil?
+      printing.number        = json['number'] unless json['number'].nil?
       printing.save!
       printing
     end

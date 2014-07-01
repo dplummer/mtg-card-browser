@@ -7,10 +7,19 @@ class MtgCard
     end.sort
   end
 
-  def self.find(card_number:, set:nil, multiverse_id:nil, set_code:nil)
+  def self.find(sort_order:nil,
+                card_number:nil,
+                set:nil,
+                multiverse_id:nil,
+                printing_id:nil,
+                set_code:nil)
     set = set || MtgSet.find_by(code: set_code)
 
-    if card_number
+    if printing_id
+      scope = Printing.where(id: printing_id)
+    elsif sort_order
+      scope = Printing.where(sort_order: sort_order)
+    elsif card_number
       scope = Printing.where(number: card_number)
     elsif multiverse_id
       scope = Printing.where(multiverse_id: multiverse_id)
@@ -52,12 +61,12 @@ class MtgCard
 
   delegate :name, :code, :to => :set, :prefix => true
 
-  delegate :name, :cmc, :type_text, :text, :rulings, :to => :card
+  delegate :name, :cmc, :colors, :type_text, :text, :rulings, :to => :card
 
   delegate :flavor, :rarity, :to => :edition
 
-  delegate :multiverse_id, :number, :artist, :mtgimage_name,
-    :to => :printing
+  delegate :multiverse_id, :number, :artist, :mtgimage_name, :sort_order,
+    :other_printing_id, :to => :printing
 
   def mana_cost
     card.mana_cost.gsub(/\{([WUBRGX0-9])\}/, '\1') if card.mana_cost
@@ -79,14 +88,50 @@ class MtgCard
     printing.id == b.printing.id
   end
 
+  COLOR_IDENTITY_SORT = [
+    :uncolored,
+    :white,
+    :blue,
+    :black,
+    :red,
+    :green,
+    :gold,
+    :artifact,
+    :land,
+    :basic_land
+  ]
+
+  def color_identity_index
+    @color_identity_index ||= if colors.nil?
+      if type_text.start_with?("Basic Last")
+        COLOR_IDENTITY_SORT.index(:basic_land)
+      elsif type_text.start_with?("Land")
+        COLOR_IDENTITY_SORT.index(:land)
+      elsif type_text.start_with?("Artifact")
+        COLOR_IDENTITY_SORT.index(:artifact)
+      else
+        COLOR_IDENTITY_SORT.index(:uncolored)
+      end
+    elsif colors.length == 1
+      COLOR_IDENTITY_SORT.index(colors.first.downcase.to_sym)
+    elsif colors.length > 1
+      COLOR_IDENTITY_SORT.index(:gold)
+    end
+  end
+
   def <=>(b)
     a = self
 
-    res = (a.number || Float::INFINITY) <=> (b.number || Float::INFINITY)
+    res = a.number_number <=> b.number_number
+    return res if res != 0
 
-    if res == 0
-      res = a.name <=> b.name
-    end
+    res = a.number <=> b.number
+    return res if res != 0
+
+    res = a.color_identity_index <=> b.color_identity_index
+    return res if res != 0
+
+    res = a.name <=> b.name
 
     res
   end
@@ -99,19 +144,27 @@ class MtgCard
     "/#{set_code}/en/#{number}"
   end
 
+  def number_number
+    number.nil? ? Float::INFINITY : number.to_i
+  end
+
   def previous_card
-    if number && number > 1
-      @previous_card ||= self.class.find(set_code: set_code,
-                                         card_number: number - 1,
+    if sort_order > 1
+      @previous_card ||= self.class.find(sort_order: sort_order - 1,
                                          set: set)
     end
   end
 
   def next_card
-    if number
-      @next_card ||= self.class.find(set_code: set_code,
-                                     card_number: number + 1,
-                                     set: set)
+    return @next_card if defined?(@next_card)
+    @next_card = self.class.find(sort_order: sort_order + 1,
+                                 set: set)
+  end
+
+  def other_part
+    if other_printing_id
+      @other_part = self.class.find(printing_id: other_printing_id,
+                                    set: set)
     end
   end
 

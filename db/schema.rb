@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140309180352) do
+ActiveRecord::Schema.define(version: 20140701173117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "unaccent"
 
   create_table "cards", force: true do |t|
     t.string   "name"
@@ -78,13 +79,17 @@ ActiveRecord::Schema.define(version: 20140309180352) do
     t.integer  "edition_id"
     t.integer  "multiverse_id"
     t.string   "mtgimage_name"
-    t.integer  "number"
+    t.string   "number"
     t.string   "artist"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cc_id"
+    t.integer  "sort_order",        default: 0, null: false
+    t.integer  "other_printing_id"
   end
 
-  add_index "printings", ["edition_id"], name: "index_printings_on_edition_id", using: :btree
+  add_index "printings", ["edition_id", "sort_order"], name: "index_printings_on_edition_id_and_sort_order", unique: true, using: :btree
+  add_index "printings", ["other_printing_id"], name: "index_printings_on_other_printing_id", using: :btree
 
   create_table "rulings", force: true do |t|
     t.date     "date"
