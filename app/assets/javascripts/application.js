@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require foundation
+//= require dygraph-combined
 //= require angular
 //= require angular-resource
 //= require angular-ui-router

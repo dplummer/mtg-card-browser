@@ -16,4 +16,14 @@ class CardsController < ApplicationController
     @cards = search.cards
     respond_with(@cards, each_serializer: MtgCardSerializer)
   end
+
+  def price_data
+    price_rows = Rails.cache.fetch(request.path_info, expires_in: 24.hours, compress: true) {
+      card = MtgCard.find card_number: params[:card_number],
+        set_code: params[:set_code]
+      data = PriceAndVolumeData.new(card)
+      data.prices.map(&:to_row).to_json
+    }
+    render text: price_rows, content_type: 'application/json'
+  end
 end

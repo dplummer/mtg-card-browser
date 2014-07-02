@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701173117) do
+ActiveRecord::Schema.define(version: 20140701225532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,14 @@ ActiveRecord::Schema.define(version: 20140701173117) do
 
   add_index "printings", ["edition_id", "sort_order"], name: "index_printings_on_edition_id_and_sort_order", unique: true, using: :btree
   add_index "printings", ["other_printing_id"], name: "index_printings_on_other_printing_id", using: :btree
+
+  create_table "product_sale_points", force: true do |t|
+    t.date    "date"
+    t.integer "cc_id"
+    t.integer "sell_price_cents"
+  end
+
+  add_index "product_sale_points", ["cc_id"], name: "index_product_sale_points_on_cc_id", using: :btree
 
   create_table "rulings", force: true do |t|
     t.date     "date"

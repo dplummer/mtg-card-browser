@@ -10,6 +10,11 @@ Rails.application.routes.draw do
     as: "card",
     constraints: { card_number: /[STP]?\d+[ab]?/ }
 
+  get ":set_code/:language/:card_number/price_data",
+    to: "cards#price_data",
+    as: "card_price_data",
+    constraints: { card_number: /[STP]?\d+[ab]?/ }
+
   get ":set_code/:language/x:multiverse_id",
     to: "cards#show",
     as: "multiverse_card",
