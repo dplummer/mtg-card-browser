@@ -4,6 +4,7 @@ gem 'rails', '~> 4.1.1'
 
 gem 'active_model_serializers'
 gem 'angularjs-rails'
+gem 'dalli'
 gem 'foreigner'
 gem 'foundation-rails'
 gem 'haml'
