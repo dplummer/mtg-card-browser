@@ -52,6 +52,7 @@
       </h4>
     </div>
     <p ng-show="card.multiverse_id"><a ng-href="http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid={{ card.multiverse_id }}">{{ card.name }} on Gatherer</a></p>
+    <p ng-show="card.cc_id"><a ng-href="http://store.channelfireball.com/catalog/lookup?catalog_id={{ card.cc_id }}">{{ card.name }} on ChannelFireball</a></p>
   </div>
   <div class='related'>
     <div ng-show="card.other_part" class="other-part">

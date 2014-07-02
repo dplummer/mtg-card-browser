@@ -3,7 +3,7 @@ class MtgCardSerializer < ActiveModel::Serializer
 
   attributes :number, :name, :type_text, :mana_cost, :rarity, :artist,
     :image_url, :previous_card, :next_card, :set, :printings, :editions,
-    :text, :cmc, :flavor, :multiverse_id, :printing_id, :other_part
+    :text, :cmc, :flavor, :multiverse_id, :printing_id, :other_part, :cc_id
 
   has_many :rulings
 
