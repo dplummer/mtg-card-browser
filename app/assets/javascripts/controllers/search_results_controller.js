@@ -11,7 +11,7 @@ angular.module('mtgApp.controllers').
         success(function(data) {
           if (data.cards.length > 1) {
             $scope.cards = data.cards;
-          } else {
+          } else if (data.cards.length == 1) {
             var card = data.cards[0];
             $state.go('mtg.sets.show.card', {
               code: card.set.code,
