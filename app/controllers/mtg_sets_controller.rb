@@ -12,7 +12,13 @@ class MtgSetsController < ApplicationController
 
   def show
     @set = MtgSet.find_by code: params[:set_code]
-    @cards = MtgCard.find_all_for_set(@set)
-    respond_with(@set)
+    respond_to do |format|
+      format.html {
+        @cards = MtgCard.find_all_for_set(@set)
+      }
+      format.json {
+        respond_with(@set)
+      }
+    end
   end
 end

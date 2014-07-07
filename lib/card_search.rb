@@ -18,6 +18,9 @@ class CardSearch
 
     query.split(' ').each do |part|
       case part
+      when /t:([a-z-]+)/i
+        type = $1
+        scope = scope.where("? = ANY(LOWER(card_types)) OR ? = ANY(LOWER( subtypes ))", type, type)
       when /e:([a-z0-9])/i # Edition code
         value = $1 
         scope = scope.joins(:editions => :mtg_set).

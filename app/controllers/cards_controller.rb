@@ -3,12 +3,16 @@ class CardsController < ApplicationController
 
   def show
     if params[:card_number]
-      @card = MtgCard.find card_number: params[:card_number], set_code: params[:set_code]
+      @card = MtgCard.find card_number: params[:card_number],
+                           set_code: params[:set_code]
     else
-      @card = MtgCard.find multiverse_id: params[:multiverse_id], set_code: params[:set_code]
+      @card = MtgCard.find multiverse_id: params[:multiverse_id],
+                           set_code: params[:set_code]
     end
     respond_with(@card, serializer: MtgCardSerializer)
   end
+
+  skip_before_filter :default_expires_in
 
   def search
     query = params[:q]
