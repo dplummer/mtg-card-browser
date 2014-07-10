@@ -61,16 +61,16 @@ angular.module('mtgApp.controllers').
             customBars: true,
             labels: ['Date', 'Sell Price', 'Volume'],
             series: {
+              'Volume': {
+                axis: 'y2',
+                plotter: barChartPlotter,
+                includeZero: true
+              },
               'Sell Price': {
                 axis: 'y',
                 strokeWidth: 2,
                 rollPeriod: 14,
                 connectSeparatedPoints: true
-              },
-              'Volume': {
-                axis: 'y2',
-                plotter: barChartPlotter,
-                includeZero: true
               }
             },
             showRangeSelector: true
