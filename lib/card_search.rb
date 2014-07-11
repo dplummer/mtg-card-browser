@@ -14,7 +14,22 @@ class CardSearch
   }.freeze
 
   def cards
-    scope = Card
+
+    cards = scope.
+      order("name ASC").
+      limit(25)
+
+    MtgCard.decorate_cards(cards)
+  end
+
+  def all_color_equality(values)
+    colors = values.each_char.to_a - ['m']
+    colors = colors.map{|letter| COLOR_LOOKUP.fetch(letter)}
+    return "array_sort(colors)::text[] = array_sort(ARRAY[?])", colors
+  end
+
+  def scope
+    scope = Card.all
 
     query.split(' ').each do |part|
       case part
@@ -26,27 +41,11 @@ class CardSearch
         scope = scope.joins(:editions => :mtg_set).
           where(mtg_sets: {code: value.upcase})
 
-      when /c(!|:)([wubrgml]+)/i # color
+      when /c(!|:)([wubrgmlc]+)/i # color
         comparitor = $1
-        values = $2
-        queries = []
+        values = $2.downcase
 
-        values.each_char do |letter|
-          case letter
-          when /[wubrg]/
-            queries << "'#{COLOR_LOOKUP.fetch(letter)}' = ANY(colors)"
-          when 'm'
-            scope = scope.where("array_length(colors, 1) > 1")
-          when 'l'
-            queries << "'Land' = ANY(card_types)"
-          end
-        end
-
-        if comparitor == ':'
-          scope = scope.where(queries.join(" OR "))
-        elsif comparitor == '!'
-          scope = scope.where(queries.join(" AND "))
-        end
+        scope = color(scope, comparitor, values)
       else
         if part =~ /^AE/
           part.sub!(/^AE/, 'A')
@@ -57,10 +56,60 @@ class CardSearch
 
     Rails.logger.warn scope.to_sql
 
-    cards = scope.
-      order("name ASC").
-      limit(25)
+    scope
+  end
 
-    MtgCard.decorate_cards(cards)
+  def color(scope, comparitor, values)
+    colors = letters_to_colors(letters(values))
+
+    if values == "m"
+      scope.where("array_length(colors, 1) > 1")
+    elsif comparitor == ':'
+      queries = []
+
+      colors.each do |color|
+        queries << "'#{color}' = ANY(colors)"
+      end
+
+      if values.include?('c')
+        queries << "colors IS NULL"
+      end
+
+      if values.include?('l')
+        queries << "'Land' = ANY(card_types)"
+      end
+
+      if values.include?('m')
+        scope = scope.where("array_length(colors, 1) > 1")
+      end
+
+      scope.where(queries.join(" OR "))
+    elsif comparitor == '!'
+      queries = []
+
+      queries << sanitize_sql_array("array_sort(colors)::text[] = array_sort(ARRAY[?])", colors)
+
+      if values.length > 1 && !values.include?('m')
+        colors.each do |color|
+          queries << "'#{color}' = ALL(colors)"
+        end
+      end
+
+      scope.where(queries.join(" OR "))
+    else
+      scope
+    end
+  end
+
+  def letters(values)
+    values.each_char.select {|l| l =~ /[wubrg]/}
+  end
+
+  def letters_to_colors(letters)
+    letters.map {|l| COLOR_LOOKUP.fetch(l)}
+  end
+
+  def sanitize_sql_array(*args)
+    Card.send(:sanitize_sql_array, args)
   end
 end
