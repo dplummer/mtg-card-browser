@@ -42,6 +42,6 @@ class CardSearch::Lexer
 
     completed_tokens << current_letters
 
-    completed_tokens
+    completed_tokens.reject(&:blank?)
   end
 end
