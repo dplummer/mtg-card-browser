@@ -152,4 +152,37 @@ describe CardSearch::Parser do
         to eq([])
     end
   end
+
+  context "mana cost" do
+    it "mana=3G (Spells that cost exactly 3G, or split cards that can be cast with 3G)" do
+      expect(query("mana=3G").where_values).
+        to eq(["mana_cost = '{3}{G}'"])
+    end
+
+    xit "mana>=2WW (Spells that cost at least two white and two colorless mana)" do
+      expect(query("mana>=2WW").where_values).
+        to eq(["mana_cost LIKE '%{W}{W}%'",
+               "colorless_mana_cost(mana_cost) >= 2"])
+    end
+
+    xit "mana<GGGGGG (Spells that can be cast with strictly less than six green mana)" do
+
+    end
+
+    xit "mana>=2RR mana<=6RR (Spells that cost two red mana and between two and six colorless mana)" do
+
+    end
+
+    xit "mana>={2/R}" do
+
+    end
+
+    xit "mana>={W/U}" do
+
+    end
+
+    xit "mana>={UP}" do
+
+    end
+  end
 end

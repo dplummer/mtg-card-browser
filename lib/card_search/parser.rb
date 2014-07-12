@@ -41,6 +41,9 @@ class CardSearch::Parser
       when /\Ao:"?([^"]+)"?\z/i
         scope = text_query(scope, $1)
 
+      when /\Amana=(.+)\z/i
+        scope = exact_mana_cost_query(scope, $1)
+
       when /\A!(.+)\z/
         scope = exact_name_query(scope, $1)
       when /\A"([^"]+)"\z/
@@ -54,6 +57,11 @@ class CardSearch::Parser
   end
 
   private
+
+  def exact_mana_cost_query(scope, cost_input)
+    cost = cost_input.each_char.map {|l| "{#{l.upcase}}"}.join
+    scope.where("mana_cost = ?", cost)
+  end
 
   def text_query(scope, text)
     scope.where("text ILIKE ?", "%#{text}%")
