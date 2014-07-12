@@ -130,4 +130,26 @@ describe CardSearch::Parser do
         to eq(["array_sort(LOWER(card_types || supertypes || subtypes))::text[] @> array_sort(ARRAY['legendary','angel'])"])
     end
   end
+
+  context "rules text" do
+    it 'o:Flying finds rules text with Flying' do
+      expect(query("o:Flying").where_values).
+        to eq(["text ILIKE '%Flying%'"])
+    end
+
+    it 'o:"First strike"' do
+      expect(query('o:"First strike"').where_values).
+        to eq(["text ILIKE '%First strike%'"])
+    end
+
+    it 'o:{T} o:"add one mana of any color"' do
+      expect(query('o:{T} o:"add one mana of any color"').where_values).
+        to eq(["text ILIKE '%{T}%'", "text ILIKE '%add one mana of any color%'"])
+    end
+
+    xit 'o:"whenever ~ deals combat damage"' do
+      expect(query('o:"First strike"').where_values).
+        to eq([])
+    end
+  end
 end

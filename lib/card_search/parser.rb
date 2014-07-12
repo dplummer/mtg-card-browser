@@ -38,6 +38,9 @@ class CardSearch::Parser
         type = $1
         scope = card_type_query(scope, type)
 
+      when /\Ao:"?([^"]+)"?\z/i
+        scope = text_query(scope, $1)
+
       when /\A!(.+)\z/
         scope = exact_name_query(scope, $1)
       when /\A"([^"]+)"\z/
@@ -51,6 +54,10 @@ class CardSearch::Parser
   end
 
   private
+
+  def text_query(scope, text)
+    scope.where("text ILIKE ?", "%#{text}%")
+  end
 
   def card_type_query(scope, types)
     scope.where("array_sort(LOWER(card_types || supertypes || subtypes))::text[] @> array_sort(ARRAY[?])", types.split(' '))
