@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713050609) do
+ActiveRecord::Schema.define(version: 20140719032139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,19 @@ ActiveRecord::Schema.define(version: 20140713050609) do
     t.integer  "vanguard_hand_modifier"
     t.integer  "vanguard_life_modifier"
     t.hstore   "foreign_names"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cc_market_prices", id: false, force: true do |t|
+    t.integer  "cc_id",      null: false
+    t.integer  "avg",        null: false
+    t.integer  "high",       null: false
+    t.integer  "low",        null: false
+    t.integer  "max",        null: false
+    t.integer  "median",     null: false
+    t.integer  "min",        null: false
+    t.integer  "stdev",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

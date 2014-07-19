@@ -15,6 +15,7 @@ gem 'pry'
 gem 'pry-doc'
 gem 'pry-nav'
 gem 'quiet_assets', group: :development
+gem 'rest-client'
 gem 'sass-rails'
 gem 'spring', group: :development
 gem 'thin'
