@@ -7,69 +7,6 @@ namespace :cc do
     raise "must define filename" unless filename
     lines = `wc -l #{filename}`.chomp.to_i - 1
 
-    skip_sets = [
-      'Apac Land Promos',
-      'Euro Land Promos',
-      'Guru Land Promos',
-      'Token Promos',
-      'Unique & Misc. Promos',
-      'Collectors Edition',
-      'Collectors Edition - International',
-      'Anthologies',
-      'Coldsnap Theme Deck Reprints',
-      'Deckmasters',
-      'Japanese Duel Decks: Jace vs Chandra',
-      'Commander Oversized Cards',
-      'Pre-Release & Release Promos',
-      'Alternate 4th Edition',
-      '',
-      nil,
-      'Unique & Misc Promos',
-      'Face the Hydra',
-      'Magic 2015',
-      'Battle the Horde',
-      'FNM Promos',
-      'IDW',
-    ]
-
-    skip_cards = [
-      'Poison Counter',
-      'Double-Sided Card Checklist',
-      'Emblem - Sorin, Lord of Innistrad',
-      'Emblem - Koth of the Hammer',
-      'Emblem - Venser, the Sojourner',
-      'Emblem - Tamiyou, the Moon Sage',
-      'Emblem - Liliana of the Dark Realms',
-      'Emblem - Domri Rade',
-      'Emblem - Elspeth, Knight-Errant',
-      "Emblem - Elspeth, Sun's Champion",
-      "Emblem - Kiora, the Crashing Wave",
-      'Swallow the Hero Whole',
-      '',
-      nil,
-    ]
-
-    set_lookup = {
-      'Alpha'         => 'Limited Edition Alpha',
-      'Beta'          => 'Limited Edition Beta',
-      'Unlimited'     => 'Unlimited Edition',
-      'Sixth Edition' => 'Classic Sixth Edition',
-      'Ravnica'       => 'Ravnica: City of Guilds',
-      'Timeshifted'   => 'Time Spiral "Timeshifted"',
-      'Battle Royale' => 'Battle Royale Box Set',
-      'Planechase - Planes' => 'Planechase',
-      'Archenemy Schemes' => 'Archenemy',
-      'Archenemy Singles' => 'Archenemy',
-      'Planechase 2012' => 'Planechase 2012 Edition',
-      'Planechase 2012 Oversized Cards' => 'Planechase 2012 Edition',
-      'Magic 2014' => 'Magic 2014 Core Set',
-      'Duel Decks: Heroes VS Monsters' => 'Duel Decks: Heroes vs. Monsters',
-      'Commander 2013' => 'Commander 2013 Edition',
-      'Jace vs Vraska' => 'Duel Decks: Jace vs. Vraska',
-      'Journey Into Nyx' => 'Journey into Nyx',
-      'Modern Event Deck Singles' => 'Modern Event Deck 2014',
-      'Book Promos' => 'Promo set for Gatherer'
-    }
 
     skip_ids = [
       852962, 852963, 854192, 858352, 858353, 858354, 858355, 858356,
@@ -82,8 +19,8 @@ namespace :cc do
 
     Progress.start("importing #{lines} cc catalog ids", lines) do
       CSV.foreach(filename, headers: true) do |row|
-        if skip_sets.include?(row['set']) ||
-            skip_cards.include?(row['name']) ||
+        if CcImport::SKIP_SETS.include?(row['set']) ||
+            CcImport::SKIP_CARDS.include?(row['name']) ||
             row['name'] =~ / - Oversized$/ ||
             skip_ids.include?(row['id'].to_i)
 
@@ -97,7 +34,7 @@ namespace :cc do
           next
         end
 
-        set = set_lookup.fetch(row['set'], row['set'])
+        set = CcImport::SET_LOOKUP.fetch(row['set'], row['set'])
 
         set.gsub!(/ vs /, ' vs. ')
 
