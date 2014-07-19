@@ -3,7 +3,8 @@ class MtgCardSerializer < ActiveModel::Serializer
 
   attributes :number, :name, :type_text, :mana_cost, :rarity, :artist,
     :image_url, :previous_card, :next_card, :set, :printings, :editions,
-    :text, :cmc, :flavor, :multiverse_id, :printing_id, :other_part, :cc_id
+    :text, :cmc, :flavor, :multiverse_id, :printing_id, :other_part, :cc_id,
+    :market_price
 
   has_many :rulings
 
@@ -66,6 +67,17 @@ class MtgCardSerializer < ActiveModel::Serializer
           name: edition.set.name,
           icon: icon_url(edition.set.icon_by_rarity(edition.rarity.downcase))
         }
+      }
+    end
+  end
+
+  def market_price
+    mp = object.cc_market_price
+    if mp
+      {
+        median: (mp.median / 100.0).round(2),
+        high: (mp.high / 100.0).round(2),
+        min: (mp.min / 100.0).round(2)
       }
     end
   end

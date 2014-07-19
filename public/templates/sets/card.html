@@ -21,7 +21,13 @@
 </div>
 
 <div class='card'>
+
   <div class='image'>
+    <div ng-show="card.market_price" class='market_price'>
+      <div class='min'><label>L:</label><price>${{card.market_price.min}}</price></div>
+      <div class='median'><label>M:</label><price>${{card.market_price.median}}</price></div>
+      <div class='high'><label>H:</label><price>${{card.market_price.high}}</price></div>
+    </div>
     <img ng-src="{{card.image_url}}">
   </div>
   <div class='details'>

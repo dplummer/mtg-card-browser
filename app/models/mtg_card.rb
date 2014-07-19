@@ -66,7 +66,7 @@ class MtgCard
   delegate :flavor, :rarity, :to => :edition
 
   delegate :multiverse_id, :number, :artist, :mtgimage_name, :sort_order,
-    :other_printing_id, :cc_id, :to => :printing
+    :other_printing_id, :cc_id, :cc_market_price, :to => :printing
 
   def mana_cost
     card.mana_cost.gsub(/\{([WUBRGX0-9])\}/, '\1') if card.mana_cost

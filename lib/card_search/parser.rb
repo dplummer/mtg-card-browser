@@ -53,6 +53,8 @@ class CardSearch::Parser
       end
     end
 
+    Rails.logger.warn scope.to_sql
+
     scope
   end
 
@@ -85,8 +87,6 @@ class CardSearch::Parser
                                                code.upcase))
       end
     end
-
-    Rails.logger.warn scope.to_sql
 
     scope
   end
