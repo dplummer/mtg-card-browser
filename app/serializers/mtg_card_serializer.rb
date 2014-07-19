@@ -77,7 +77,7 @@ class MtgCardSerializer < ActiveModel::Serializer
       {
         median: (mp.median / 100.0).round(2),
         high: (mp.high / 100.0).round(2),
-        min: (mp.min / 100.0).round(2)
+        min: ((mp.min.zero? ? mp.low : mp.min) / 100.0).round(2)
       }
     end
   end
