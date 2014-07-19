@@ -30,9 +30,16 @@ class BoxPriceCalculator
   def rarity_price(column, rarity)
     @rarity_prices ||= CcMarketPrice.joins(:printing => :edition).
       where(editions: {mtg_set_id: mtg_set.id}).
-      group(:rarity).
-      average(column)
+      select("editions.rarity, cc_market_prices.#{column}").
+      to_a
 
-    @rarity_prices[rarity].to_f / 100.0
+    prices = @rarity_prices.
+      select{|market_price| market_price["rarity"] == rarity}.
+      map {|market_price|
+      price = market_price[column]
+      price < 100 ? 0 : price
+    }
+
+    prices.sum.to_f / prices.length / 100
   end
 end
