@@ -1,3 +1,44 @@
 <form ng-submit="search()">
-  <input class="form-control omnibar" placeholder="Search cards..." ng-model="searchTerm">
+  <div class="row collapse">
+    <div class="small-11 columns">
+      <input class="form-control omnibar" placeholder="Search cards..." ng-model="searchTerm">
+    </div>
+    <div class="small-1 columns help-col">
+      <a ng-click="showHelp = !showHelp" class="button postfix">?</a>
+    </div>
+  </div>
 </form>
+<div ng-show="showHelp">
+  <dl>
+    <dt>Name:</dt>
+    <dd><a ui-sref="mtg.search({q: 'Birds of Paradise'})">Birds of Paradise</a></dd>
+    <dd><a ui-sref="mtg.search({q: '&quot;Birds of Paradise&quot;'})">"Birds of Paradise"</a></dd>
+    <dd><a ui-sref="mtg.search({q: '!Anger'})">!Anger</a> (Match the full name)</dd>
+
+    <dt>Rules Text (<u>O</u>racle):</dt>
+    <dd><a ui-sref="mtg.search({q: 'o:Flying'})"o:Flying</a></dd>
+    <dd><a ui-sref="mtg.search({q: 'o:&quot;First strike&quot;'})">o:"First strike"</a></dd>
+    <dd><a ui-sref="mtg.search({q: 'o:{T} o:&quot;add+one+mana+of+any+color&quot;'})">o:{T} o:"add one mana of any color"</a></dd>
+    <dd><a ui-sref="mtg.search({q: 'o:&quot;whenever ~ deals combat damage&quot;'})">o:"whenever ~ deals combat damage"</a></dd>
+
+    <dt><u>T</u>ypes (Oracle):</dt>
+    <dd><a ui-sref="mtg.search({q: 't:angel'})">t:angel</a></dd>
+    <dd><a ui-sref="mtg.search({q: 't:&quot;legendary angel&quot;'})">t:"legendary angel"</a></dd>
+    <dd><a ui-sref="mtg.search({q: 't:basic'})">t:basic</a></dd>
+    <dd><a ui-sref="mtg.search({q: 't:&quot;arcane instant&quot;'})">t:"arcane instant"</a></dd>
+
+    <dt><u>C</u>olors:</dt>
+    <dd><a ui-sref="mtg.search({q: 'c:w'})">c:w</a> (Any card that is white)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c:wu'})">c:wu</a> (Any card that is white or blue)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c:wum'})">c:wum</a> (Any card that is white or blue, and multicolored)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c!w'})">c!w</a> (Cards that are only white)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c!wu'})">c!wu</a> (Cards that are only white or blue, or both)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c!wum'})">c!wum</a> (Cards that are only white and blue, and multicolored)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c!wubrgm'})">c!wubrgm</a> (Cards that are all five colors)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c:m'})">c:m</a> (Any multicolored card)</dd>
+    <dd><a ui-sref="mtg.search({q: 'c:l or c:c'})">c:l or c:c</a> (Lands and colorless cards)</dd>
+
+    <dt><u>Mana</u> Cost:</dt>
+    <dd><a ui-sref="mtg.search({q: 'mana%3D3G'})">mana=3G</a> (Spells that cost exactly 3G, or split cards that can be cast with 3G)</dd>
+  </dl>
+</div>
