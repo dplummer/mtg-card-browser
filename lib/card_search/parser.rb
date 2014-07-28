@@ -77,13 +77,13 @@ class CardSearch::Parser
     scope = scope.group("cards.id")
 
     codes.split("+").each_with_index do |code, i|
-      scope = scope.joins("INNER JOIN `editions` AS e#{i} ON e#{i}.`id` = `cards`.`editions_id`")
+      scope = scope.joins(%Q{INNER JOIN "editions" AS e#{i} ON e#{i}."card_id" = "cards"."id"})
 
       if code.include?(',')
-        scope = scope.joins(sanitize_sql_array("INNER JOIN `mtg_sets` AS s#{i} ON s#{i}.`id` = e#{i}.`mtg_set_id` AND s#{i}.code IN (?)",
+        scope = scope.joins(sanitize_sql_array(%Q{INNER JOIN "mtg_sets" AS s#{i} ON s#{i}."id" = e#{i}."mtg_set_id" AND s#{i}.code IN (?)},
                                                code.split(',').map(&:upcase)))
       else
-        scope = scope.joins(sanitize_sql_array("INNER JOIN `mtg_sets` AS s#{i} ON s#{i}.`id` = e#{i}.`mtg_set_id` AND s#{i}.code = ?",
+        scope = scope.joins(sanitize_sql_array(%Q{INNER JOIN "mtg_sets" AS s#{i} ON s#{i}."id" = e#{i}."mtg_set_id" AND s#{i}.code = ?},
                                                code.upcase))
       end
     end
