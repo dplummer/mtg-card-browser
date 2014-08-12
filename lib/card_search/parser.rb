@@ -7,7 +7,7 @@ class CardSearch::Parser
 
   def scope
     parsed = MtgSearchParser.parse(search_string)
-    scope = PostgresSearchBackend.new(Card.all).visit(parsed)
+    scope = PostgresSearchBackend.visit(Card.all, parsed)
 
     Rails.logger.warn scope.to_sql
 
