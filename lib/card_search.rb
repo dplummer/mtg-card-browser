@@ -1,4 +1,12 @@
 class CardSearch
+  COLOR_LOOKUP = {
+    'w' => 'White',
+    'u' => 'Blue',
+    'b' => 'Black',
+    'r' => 'Red',
+    'g' => 'Green',
+  }.freeze
+
   attr_reader :query
 
   def initialize(query)

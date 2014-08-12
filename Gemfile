@@ -38,3 +38,5 @@ gem 'vlad-git', require: false, group: [:development]
 gem 'activerecord-import'
 
 gem 'sql_origin', github: 'crystalcommerce/sql_origin', group: [:development, :test]
+
+gem 'mtg_search_parser'

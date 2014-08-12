@@ -1,164 +1,16 @@
 class CardSearch::Parser
   attr_reader :search_string
 
-  COLOR_LOOKUP = {
-    'w' => 'White',
-    'u' => 'Blue',
-    'b' => 'Black',
-    'r' => 'Red',
-    'g' => 'Green',
-  }.freeze
-
   def initialize(search_string)
     @search_string = search_string
   end
 
   def scope
-    scope = Card.all
-
-    lexer = CardSearch::Lexer.new
-    terms = lexer.lex(search_string)
-
-    terms.each do |term|
-      case term
-
-      # Edition code
-      when /\Ae:([a-z0-9,+]+)(\/[a-z]{1,2})?\z/i
-        scope = edition_query(scope, $1)
-
-      # color
-      when /c(!|:)([wubrgmlc]+)/i
-        comparitor = $1
-        values = $2.downcase
-
-        scope = color(scope, comparitor, values)
-
-      # types
-      when /\At:"([^"]+)"\z/i, /\At:(.+)\z/i
-        type = $1
-        scope = card_type_query(scope, type)
-
-      # card text
-      when /\Ao:"?([^"]+)"?\z/i
-        scope = text_query(scope, $1)
-
-      # mana cost
-      when /\Amana=(.+)\z/i
-        scope = exact_mana_cost_query(scope, $1)
-
-      # name
-      when /\A!(.+)\z/
-        scope = exact_name_query(scope, $1)
-      when /\A"([^"]+)"\z/
-        scope = name_query(scope, $1)
-      else
-        scope = name_query(scope, term)
-      end
-    end
+    parsed = MtgSearchParser.parse(search_string)
+    scope = PostgresSearchBackend.new(Card.all).visit(parsed)
 
     Rails.logger.warn scope.to_sql
 
     scope
-  end
-
-  private
-
-  def exact_mana_cost_query(scope, cost_input)
-    cost = cost_input.each_char.map {|l| "{#{l.upcase}}"}.join
-    scope.where("mana_cost = ?", cost)
-  end
-
-  def text_query(scope, text)
-    scope.where("text ILIKE ?", "%#{text}%")
-  end
-
-  def card_type_query(scope, types)
-    scope.where("array_sort(LOWER(card_types || supertypes || subtypes))::text[] @> array_sort(ARRAY[?])", types.split(' '))
-  end
-
-  def edition_query(scope, codes)
-    scope = scope.group("cards.id")
-
-    codes.split("+").each_with_index do |code, i|
-      scope = scope.joins(%Q{INNER JOIN "editions" AS e#{i} ON e#{i}."card_id" = "cards"."id"})
-
-      if code.include?(',')
-        scope = scope.joins(sanitize_sql_array(%Q{INNER JOIN "mtg_sets" AS s#{i} ON s#{i}."id" = e#{i}."mtg_set_id" AND s#{i}.code IN (?)},
-                                               code.split(',').map(&:upcase)))
-      else
-        scope = scope.joins(sanitize_sql_array(%Q{INNER JOIN "mtg_sets" AS s#{i} ON s#{i}."id" = e#{i}."mtg_set_id" AND s#{i}.code = ?},
-                                               code.upcase))
-      end
-    end
-
-    scope
-  end
-
-  def exact_name_query(scope, name)
-    if name =~ /^AE/
-      name.sub!(/^AE/, 'A')
-    end
-    scope = scope.where("unaccent(cards.name) = ?", name)
-  end
-
-  def name_query(scope, name)
-    if name =~ /^AE/
-      name.sub!(/^AE/, 'A')
-    end
-    scope = scope.where("unaccent(cards.name) ILIKE ?", "%#{name}%")
-  end
-
-  def color(scope, comparitor, values)
-    colors = letters_to_colors(letters(values))
-
-    if values == "m"
-      scope.where("array_length(colors, 1) > 1")
-    elsif comparitor == ':'
-      queries = []
-
-      colors.each do |color|
-        queries << "'#{color}' = ANY(colors)"
-      end
-
-      if values.include?('c')
-        queries << "colors IS NULL"
-      end
-
-      if values.include?('l')
-        queries << "'Land' = ANY(card_types)"
-      end
-
-      if values.include?('m')
-        scope = scope.where("array_length(colors, 1) > 1")
-      end
-
-      scope.where(queries.join(" OR "))
-    elsif comparitor == '!'
-      queries = []
-
-      queries << sanitize_sql_array("array_sort(colors)::text[] = array_sort(ARRAY[?])", colors)
-
-      if values.length > 1 && !values.include?('m')
-        colors.each do |color|
-          queries << "'#{color}' = ALL(colors)"
-        end
-      end
-
-      scope.where(queries.join(" OR "))
-    else
-      scope
-    end
-  end
-
-  def letters(values)
-    values.each_char.select {|l| l =~ /[wubrg]/}
-  end
-
-  def letters_to_colors(letters)
-    letters.map {|l| COLOR_LOOKUP.fetch(l)}
-  end
-
-  def sanitize_sql_array(*args)
-    Card.send(:sanitize_sql_array, args)
   end
 end

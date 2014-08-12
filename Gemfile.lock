@@ -119,6 +119,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minitest (5.4.0)
+    mtg_search_parser (0.0.1)
     multi_json (1.10.1)
     multi_test (0.1.1)
     nokogiri (1.6.2.1)
@@ -248,6 +249,7 @@ DEPENDENCIES
   guard-rspec
   haml
   jquery-rails
+  mtg_search_parser
   pg
   progress
   pry

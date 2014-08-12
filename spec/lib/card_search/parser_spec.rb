@@ -35,29 +35,29 @@ describe CardSearch::Parser do
   end
 
   context "edition code" do
-    it "e:lea/en (Uses the abbreviations that are listed on the sitemap) and ignores language" do
-      q = query("e:lea/en")
+    it "e:lea (Uses the abbreviations that are listed on the sitemap) and ignores language" do
+      q = query("e:lea")
       expect(q.where_values).to eq([])
-      expect(q.joins_values).to include("INNER JOIN `editions` AS e0 ON e0.`id` = `cards`.`editions_id`")
-      expect(q.joins_values).to include("INNER JOIN `mtg_sets` AS s0 ON s0.`id` = e0.`mtg_set_id` AND s0.code = 'LEA'")
+      expect(q.joins_values).to include('INNER JOIN "editions" AS e0 ON e0."card_id" = "cards"."id"')
+      expect(q.joins_values).to include(%{INNER JOIN "mtg_sets" AS s0 ON s0."id" = e0."mtg_set_id" AND s0.code = 'LEA'})
       expect(q.group_values).to eq(["cards.id"])
     end
 
     it "e:lea,leb (Cards that appear in Alpha or Beta)" do
       q = query("e:lea,leb")
       expect(q.where_values).to eq([])
-      expect(q.joins_values).to include("INNER JOIN `editions` AS e0 ON e0.`id` = `cards`.`editions_id`")
-      expect(q.joins_values).to include("INNER JOIN `mtg_sets` AS s0 ON s0.`id` = e0.`mtg_set_id` AND s0.code IN ('LEA','LEB')")
+      expect(q.joins_values).to include(%{INNER JOIN "editions" AS e0 ON e0."card_id" = "cards"."id"})
+      expect(q.joins_values).to include(%{INNER JOIN "mtg_sets" AS s0 ON s0."id" = e0."mtg_set_id" AND s0.code IN ('LEA','LEB')})
       expect(q.group_values).to eq(["cards.id"])
     end
 
     it "e:lea+leb (Cards that appear in Alpha and Beta)" do
       q = query("e:lea+leb")
       expect(q.where_values).to eq([])
-      expect(q.joins_values).to include("INNER JOIN `editions` AS e0 ON e0.`id` = `cards`.`editions_id`")
-      expect(q.joins_values).to include("INNER JOIN `mtg_sets` AS s0 ON s0.`id` = e0.`mtg_set_id` AND s0.code = 'LEA'")
-      expect(q.joins_values).to include("INNER JOIN `editions` AS e1 ON e1.`id` = `cards`.`editions_id`")
-      expect(q.joins_values).to include("INNER JOIN `mtg_sets` AS s1 ON s1.`id` = e1.`mtg_set_id` AND s1.code = 'LEB'")
+      expect(q.joins_values).to include(%{INNER JOIN "editions" AS e0 ON e0."card_id" = "cards"."id"})
+      expect(q.joins_values).to include(%{INNER JOIN "mtg_sets" AS s0 ON s0."id" = e0."mtg_set_id" AND s0.code = 'LEA'})
+      expect(q.joins_values).to include(%{INNER JOIN "editions" AS e1 ON e1."card_id" = "cards"."id"})
+      expect(q.joins_values).to include(%{INNER JOIN "mtg_sets" AS s1 ON s1."id" = e1."mtg_set_id" AND s1.code = 'LEB'})
       expect(q.group_values).to eq(["cards.id"])
     end
 
