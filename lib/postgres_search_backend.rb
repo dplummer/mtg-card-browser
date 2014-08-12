@@ -8,7 +8,7 @@ class PostgresSearchBackend
   def visit(parsed)
     @scope = parsed.inject(scope) do |scope, node|
       klass = node.class.name.demodulize
-      "::PostgresSearchBackend::#{klass}".constantize.visit(scope, node)
+      PostgresSearchBackend.const_get(klass).visit(scope, node)
     end
   end
 end
