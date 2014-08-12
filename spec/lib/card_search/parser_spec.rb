@@ -185,4 +185,12 @@ describe CardSearch::Parser do
 
     end
   end
+
+  context "OR grouping" do
+    it "cat OR dog (Any card that is white or blue)" do
+      expect(query("cat OR dog").where_values).
+        to eq(["unaccent(cards.name) ILIKE '%cat%' OR "\
+               "unaccent(cards.name) ILIKE '%dog%'"])
+    end
+  end
 end
