@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.1'
+gem 'rails', '~> 4.2'
 
 gem 'active_model_serializers'
 gem 'angularjs-rails'
