@@ -311,6 +311,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionview (>= 4.2.11.1)
   active_model_serializers
   activerecord-import
   angularjs-rails
